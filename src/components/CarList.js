@@ -3,8 +3,10 @@ import {removeCar} from '../store'
 
 const CarList = () => {
     const dispatch = useDispatch()
-    const cars = useSelector((state) => {
-        return state.cars.data
+    const cars = useSelector(({cars: {data, searchTerm}}) => {
+        return data.filter((car) =>
+            car.name.toLowerCase().includes(searchTerm.toLowerCase())
+        )
     })
 
     const handleCarDelete = (car) => {
@@ -13,7 +15,7 @@ const CarList = () => {
 
     const renderedCars = cars.map((car) => {
         return (
-            <div key={car.id}>
+            <div key={car.id} className="panel">
                 <p>
                     {car.name} - ${car.cost}
                 </p>
